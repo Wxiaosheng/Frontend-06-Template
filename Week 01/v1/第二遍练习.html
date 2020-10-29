@@ -56,8 +56,12 @@
       }
       color = 3 - color
       show()
+      if (willWin(pattern, color)) {
+        console.log(`${color === 1 ? "⭕️" : "❌"} will win!`)
+      }
     }
 
+    // 校验当前步 是否结束游戏
     function check(pattern, color) {
       {
         for (let i = 0; i < 3; i++) {
@@ -95,6 +99,20 @@
       return false
     }
 
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj))
+    }
+
+    function willWin(pattern, color) {
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (pattern[i][j]) continue
+          const temp = clone(pattern)
+          temp[i][j] = color
+          if (check(temp, color)) return true
+        }
+      }
+    }
 
     show()
   </script>
