@@ -31,18 +31,29 @@
             [0, 0 , 0],
         ]
 
+        let color = 1
+
         function show() {
             let board = document.getElementById("board")
+
+            board.innerHTML = ""
 
             for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < 3; j++) {
                     let cell = document.createElement('div')
                     cell.classList.add('cell')
                     cell.innerText = pattern[j][i] == 2 ? '❌' : pattern[j][i] == 1 ? "⭕️" : ""
+                    cell.addEventListener('click', () => move(j, i))
                     board.appendChild(cell)
                 }
                 board.appendChild(document.createElement("br"))
             }
+        }
+
+        function move (j, i) {
+            pattern[j][i] = color
+            color = 3 - color // 1 - 2 来回切换
+            show()
         }
 
         show();
