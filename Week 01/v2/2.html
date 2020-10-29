@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .cell {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      border: 1px solid white;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 50px;
+      background-color: green;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="board"></div>
+
+  <script>
+    const pattern = [
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+    ]
+
+    let color = 1
+
+    function show() {
+      let board = document.getElementById("board")
+
+      board.innerHTML = ""
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          let cell = document.createElement('div')
+          cell.classList.add('cell')
+          cell.innerText = pattern[i * 3 + j] == 2 ? '❌' : pattern[i * 3 + j] == 1 ? "⭕️" : ""
+          cell.addEventListener('click', () => move(i, j))
+          board.appendChild(cell)
+        }
+        board.appendChild(document.createElement("br"))
+      }
+    }
+
+    function move(i, j) {
+      pattern[i * 3 + j] = color
+      if (check(pattern, color)) {
+        alert(`${color == 1 ? "⭕️" : "❌"} is winner!`)
+      }
+      color = 3 - color // 1 - 2 来回切换
+
+      console.log(bastChoice(pattern, color))
+
+      show()
+      // if (willWin(pattern, color)) {
+      //   console.log(`${color == 1 ? "⭕️" : "❌"} will win!`)
+      // }
+    }
+
+    function check(pattern, color) {
+      {
+        for (let i = 0; i < 3; i++) {
+          let win = true
+          for (let j = 0; j < 3; j++) {
+            if (pattern[i * 3 + j] != color) win = false
+          }
+          if (win) return true
+        }
+      }
+      {
+        for (let i = 0; i < 3; i++) {
+          let win = true
+          for (let j = 0; j < 3; j++) {
+            if (pattern[j * 3 + i] != color) win = false
+          }
+          if (win) return true
+        }
+      }
+
+      {
+        let win = true
+        for (let i = 0; i < 3; i++) {
+          if (pattern[Math.pow(2, i)] != color) win = false
+        }
+        if (win) return true
+      }
+      {
+        let win = true
+        for (let i = 0; i < 3; i++) {
+          if (pattern[i][(i + 1) * 2] != color) win = false
+        }
+        if (win) return true
+      }
+      return false
+    }
+
+    function willWin(pattern, color) {
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (pattern[i * 3 + j]) continue
+          const temp = clone(pattern)
+          temp[i * 3 + j] = color
+          if (check(temp, color)) return [i, j]
+        }
+      }
+      return null
+    }
+
+    function bastChoice(pattern, color) {
+      let p
+      if (p = willWin(pattern, color)) {
+        return {
+          point: p,
+          result: 1
+        }
+      }
+      let result = -2
+      let point = null
+      outer: for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (pattern[i * 3 + j]) continue
+          const temp = clone(pattern)
+          temp[i * 3 + j] = color
+          let ret = bastChoice(temp, 3 - color)
+          if (-ret.result > result) {
+            result = -ret.result
+            point = [i, j]
+          }
+          if (ret.result == 1) break outer
+        }
+      }
+      return {
+        point,
+        result: point ? result : 0
+      }
+    }
+
+    function clone(pattern) {
+      return Object.create(pattern)
+    }
+
+    show(pattern);
+  </script>
+</body>
+
+</html>
