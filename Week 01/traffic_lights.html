@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>红绿灯🚥</title>
+  <style>
+    .green {
+      color: green;
+    }
+
+    .yellow {
+      color: yellow;
+    }
+
+    .red {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="box"></div>
+
+  <script>
+    // 绿灯10秒， 黄灯2秒，红灯 5秒
+    let time = null
+    const box = document.getElementById("box")
+
+    function greenLight() {
+      count = 10
+      time = setInterval(() => {
+        if (count > 0) {
+          console.log(`绿灯亮的第 ${count} 秒`)
+          const light = document.createElement("div")
+          light.classList.add("green")
+          light.innerText = `绿灯亮的第 ${count} 秒`
+          count--
+
+          box.innerHTML = ""
+          box.appendChild(light)
+        } else {
+          clearInterval(time)
+          yellowLight()
+        }
+      }, 1000)
+    }
+
+    function yellowLight() {
+      count = 2
+      time = setInterval(() => {
+        if (count > 0) {
+          console.log(`黄灯亮的第 ${count} 秒`)
+          const light = document.createElement("div")
+          light.classList.add("yellow")
+          light.innerText = `黄灯亮的第 ${count} 秒`
+          count--
+
+          box.innerHTML = ""
+          box.appendChild(light)
+        } else {
+          clearInterval(time)
+          redLight()
+        }
+      }, 1000)
+    }
+
+    function redLight() {
+      count = 5
+      time = setInterval(() => {
+        if (count > 0) {
+          console.log(`红灯亮的第 ${count} 秒`)
+          const light = document.createElement("div")
+          light.classList.add("red")
+          light.innerText = `红灯亮的第 ${count} 秒`
+          count--
+
+          box.innerHTML = ""
+          box.appendChild(light)
+        } else {
+          clearInterval(time)
+          greenLight()
+        }
+      }, 1000)
+    }
+
+    greenLight()
+
+  </script>
+
+</body>
+
+</html>
