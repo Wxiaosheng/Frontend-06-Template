@@ -17,3 +17,18 @@
 #### 第二版
 * [V2.1 抽象AI算法](./V2/1.html)
 * [V2.2 一维数组表示棋盘](./V2/2.html)
+
+
+
+## 异步编程 | async 异步编程
+
+### 红绿灯问题
+一个路口的红绿灯🚥，会按照绿灯亮10秒，黄灯亮2秒，红灯亮5秒的顺序 无限循环
+
+[解法](./traffic_lights.html)
+
+
+### JavaScript 的异步机制
+* callback
+* Promise
+* async/await
