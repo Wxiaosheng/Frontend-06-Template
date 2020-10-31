@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>红绿灯🚦-generator</title>
+</head>
+<style>
+    .box {
+        display: inline-block;
+        border: 1px solid #333;
+        text-align: center;
+        padding: 10px;
+        border-radius: 60px;
+    }
+    .light {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: grey;
+    }
+    .green > .active {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: green;
+    }
+    .yellow {
+        margin: 10px 0;
+    }
+    .yellow > .active {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: yellow;
+    }
+    .red > .active {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: red;
+    }
+
+     #btn {
+        display: inline-block;
+        border: 1px solid #333333;
+        padding: 5px 10px;
+    }
+    
+</style>
+<body>
+
+    <div class="box">
+        <div class="light green"></div>
+        <div class="light yellow"></div>
+        <div class="light red"></div>
+    </div>
+
+    <div id="btn">next</div>
+
+
+    <script>
+        function green () {
+            const lights = document.getElementsByClassName("light")
+            for (let i = 0; i < lights.length; i++) {
+                lights[i].innerHTML = ""
+            }
+            const active = document.createElement("div")
+            active.classList.add("active")
+            document.getElementsByClassName("green")[0].appendChild(active)
+        }
+
+        function yellow () {
+            const lights = document.getElementsByClassName("light")
+            for (let i = 0; i < lights.length; i++) {
+                lights[i].innerHTML = ""
+            }
+            const active = document.createElement("div")
+            active.classList.add("active")
+            document.getElementsByClassName("yellow")[0].appendChild(active)
+        }
+
+        function red () {
+            const lights = document.getElementsByClassName("light")
+            for (let i = 0; i < lights.length; i++) {
+                lights[i].innerHTML = ""
+            }
+            const active = document.createElement("div")
+            active.classList.add("active")
+            document.getElementsByClassName("red")[0].appendChild(active)
+        }
+
+
+        function sleep (v) {
+            return new Promise((resolve, reject) => {
+                setTimeout(resolve, v)
+            })
+        }
+
+        function happen (element, eventName) {
+            return new Promise((reslove, reject) => {
+                element.addEventListener(eventName, reslove)
+            })
+        }
+
+        function run(iterator) {
+            const { value, done } = iterator.next()
+            if (done) return
+            if (value instanceof Promise) {
+                value.then(() => {
+                    run(iterator)
+                })
+            }
+        }
+
+        function* go () {
+           green()
+           yield sleep(10 * 100)
+           yellow()
+           yield sleep(2 * 100)
+           red()
+           yield sleep(5 * 100)
+        }
+
+        function co (generator) {
+            return function () {
+                return run(generator())
+            }
+        }
+
+        go = co(go)
+
+        go()
+
+    </script>
+</body>
+</html>
+</body>
+</html>
