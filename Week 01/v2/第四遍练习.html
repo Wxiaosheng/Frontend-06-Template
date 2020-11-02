@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>TicTocToa</title>
+
+  <style>
+    .cell {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      font-size: 50px;
+      background-color: green;
+      border: 1px solid #ffffff;
+      text-align: center;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="board"></div>
+
+
+  <script>
+    let color = 2
+    const pattren = [
+      [0, 0, 0],
+      [0, 1, 0],
+      [0, 0, 0],
+    ]
+    const m = pattren.length, n = pattren[0].length
+
+    function show() {
+      const board = document.getElementById("board")
+      board.innerHTML = ""
+
+      for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+          const cell = document.createElement("div")
+          cell.classList.add("cell")
+          cell.innerText = pattren[i][j] == 1 ? "❌" : pattren[i][j] == 2 ? "⭕️" : ""
+          cell.addEventListener("click", () => useMove(i, j))
+
+          board.appendChild(cell)
+        }
+        board.appendChild(document.createElement("br"))
+      }
+    }
+
+    function useMove(x, y) {
+      pattren[x][y] = color
+
+      if (check(pattren, color)) {
+        alert(`${color == 1 ? "❌" : "⭕️"} is winner!`)
+      }
+
+      color = 3 - color
+
+      // const result = willWin(pattren, color)
+      // if (result) {
+      //   console.log(result)
+      // }
+      show()
+
+      computedMove()
+    }
+
+    function computedMove() {
+      const { result, point } = bastChoice(pattren, color)
+      if (point) {
+        pattren[point[0]][point[1]] = color
+      }
+      if (check(pattren, color)) {
+        alert(`${color == 1 ? "❌" : "⭕️"} is winner!`)
+      }
+      color = 3 - color
+
+      show()
+    }
+
+    // 判断当前的一步下完后，是否是结束游戏
+    function check(pattren, color) {
+      {
+        for (let i = 0; i < m; i++) {
+          let win = true
+          for (let j = 0; j < n; j++) {
+            if (pattren[i][j] != color) win = false
+          }
+          if (win) return true
+        }
+      }
+      {
+        for (let i = 0; i < m; i++) {
+          let win = true
+          for (let j = 0; j < n; j++) {
+            if (pattren[j][i] != color) win = false
+          }
+          if (win) return true
+        }
+      }
+      {
+        let win = true
+        for (let i = 0; i < n; i++) {
+          if (pattren[i][i] != color) win = false
+        }
+        if (win) return true
+      }
+      {
+        let win = true
+        for (let i = 0; i < m; i++) {
+          if (pattren[i][n - i] != color) win = false
+        }
+        if (win) return true
+      }
+      return false
+    }
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj))
+    }
+
+    // 判断下一步棋是否会赢
+    function willWin(pattren, color) {
+      for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+          if (pattren[i][j]) continue
+          const temp = clone(pattren)
+          temp[i][j] = color
+          if (check(temp, color)) return [i, j]
+        }
+      }
+      return null
+    }
+
+    // 下一步棋最好的选择， 递归判断
+    // 一共有三种结果
+    // 1 - 赢，0 - 和， -1 - 输
+    function bastChoice(pattren, color) {
+      // terminator (赢了，或没地方可下， 判断下一步的结果)
+      const ret = willWin(pattren, color)
+      if (ret) {
+        return {
+          point: ret,
+          result: 1
+        }
+      }
+      // process current logic
+      let result = -2, point = null
+      outer: for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+          if (pattren[i][j]) continue
+          const temp = clone(pattren)
+          temp[i][j] = color
+          const oop = bastChoice(temp, 3 - color)
+          if (-oop.result > result) {
+            result = -oop.result
+            point = [i, j]
+          }
+          if (result == 1) break outer
+        }
+      }
+
+      return {
+        point,
+        result: point ? result : 0,
+      }
+    }
+
+    show()
+
+  </script>
+
+</body>
+
+</html>
