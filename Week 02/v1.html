@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>地图编辑器</title>
+</head>
+
+<style>
+  .cell {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background-color: gray;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    vertical-align: top;
+  }
+
+  br {
+    margin: 0;
+    padding: 0;
+    height: 0;
+    line-height: 0;
+  }
+</style>
+
+<body>
+
+  <div id="container"></div>
+
+  <button id="btn">save</button>
+
+  <script>
+    const container = document.getElementById("container")
+    const map = localStorage["map"] ? JSON.parse(localStorage["map"]) : new Array(10000).fill(0)
+
+    for (let i = 0; i < 100; i++) {
+      for (let j = 0; j < 100; j++) {
+        const cell = document.createElement("div")
+        cell.classList.add("cell")
+
+        if (map[i * 100 + j] == 1) {
+          cell.style.backgroundColor = "black"
+        }
+
+        cell.addEventListener("mousemove", () => {
+          if (mousedown) {
+            if (clear) {
+              cell.style.backgroundColor = ""
+              map[i * 100 + j] = 0
+            } else {
+              cell.style.backgroundColor = "black"
+              map[i * 100 + j] = 1
+            }
+          }
+        })
+
+        container.appendChild(cell)
+      }
+      container.appendChild(document.createElement("br"))
+    }
+
+    document.getElementById("btn").onclick = () => {
+      localStorage["map"] = JSON.stringify(map)
+    }
+
+    let mousedown = false, clear = false
+
+    document.addEventListener("mousedown", (e) => {
+      mousedown = true
+      clear = (e.which === 3)
+    })
+
+    document.addEventListener("mouseup", () => mousedown = false)
+    document.addEventListener("contextmenu", e => e.preventDefault())
+  </script>
+
+</body>
+
+</html>
