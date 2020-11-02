@@ -7,21 +7,22 @@
 </head>
 
 <style>
+  #container {
+    width: 801px;
+    height: 801px;
+  }
+  .row {
+    height: 8px;
+  }
   .cell {
     display: inline-block;
     width: 7px;
     height: 7px;
+    line-height: 8px;
     background-color: gray;
     border-bottom: 1px solid white;
     border-right: 1px solid white;
     vertical-align: top;
-  }
-
-  br {
-    margin: 0;
-    padding: 0;
-    height: 0;
-    line-height: 0;
   }
 </style>
 
@@ -36,6 +37,8 @@
     const map = localStorage["map"] ? JSON.parse(localStorage["map"]) : new Array(10000).fill(0)
 
     for (let i = 0; i < 100; i++) {
+      const row = document.createElement("div")
+      row.classList.add("row")
       for (let j = 0; j < 100; j++) {
         const cell = document.createElement("div")
         cell.classList.add("cell")
@@ -56,9 +59,9 @@
           }
         })
 
-        container.appendChild(cell)
+        row.appendChild(cell)
       }
-      container.appendChild(document.createElement("br"))
+      container.appendChild(row)
     }
 
     document.getElementById("btn").onclick = () => {
