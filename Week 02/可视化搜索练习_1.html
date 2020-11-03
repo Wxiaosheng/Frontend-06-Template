@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>地图编辑器-可视化搜索练习_1</title>
+
+  <style>
+    #container {
+      width: 801px;
+      height: 810px;
+    }
+
+    .row {
+      height: 8px;
+    }
+
+    .cell {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      line-height: 8px;
+      border-bottom: 1px solid white;
+      border-right: 1px solid white;
+      background-color: gray;
+      vertical-align: top;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <button id="btn">save</button>
+
+
+  <script>
+    const container = document.getElementById("container")
+    const map = localStorage["map"] ? JSON.parse(localStorage["map"]) : new Array(10000).fill(0)
+
+    for (let i = 0; i < 100; i++) {
+      const row = document.createElement("div")
+      row.classList.add("row")
+      for (let j = 0; j < 100; j++) {
+        const cell = document.createElement("div")
+        cell.classList.add("cell")
+        cell.classList.add(`no${i * 100 + j}`)
+
+        if (map[i * 100 + j] == 1) {
+          cell.style.backgroundColor = "black"
+        }
+
+        cell.addEventListener("mousemove", () => {
+          if (mousedown) {
+            if (clear) {
+              cell.style.backgroundColor = ""
+              map[i * 100 + j] = 0
+            } else {
+              cell.style.backgroundColor = "black"
+              map[i * 100 + j] = 1
+            }
+          }
+        })
+
+        row.appendChild(cell)
+      }
+      container.appendChild(row)
+    }
+
+    document.getElementById("btn").onclick = () => {
+      localStorage["map"] = JSON.stringify(map)
+    }
+
+    let mousedown = false, clear = false
+
+    document.addEventListener("mousedown", (e) => {
+      mousedown = true
+      clear = (e.which === 3)
+    })
+
+    document.addEventListener("mouseup", () => mousedown = false)
+    document.addEventListener("contextmenu", e => e.preventDefault())
+
+    // DFS
+    async function path(map, start, end) {
+      const queue = [start]
+
+      async function insert(x, y) {
+        if (x < 0 || x >= 100 || y < 0 | y >= 100) return
+        if (map[x * 100 + y]) return
+
+        await sleep(10)
+
+        map[x * 100 + y] = 2
+        document.getElementsByClassName(`no${x * 100 + y}`)[0].style.backgroundColor = "lightgreen"
+        queue.push([x, y])
+      }
+
+      while (queue.length) {
+        const [x, y] = queue.shift()
+        console.log(x, y)
+        if (x == end[0] && y == end[1]) {
+          return true
+        }
+
+        await insert(x - 1, y)
+        await insert(x + 1, y)
+        await insert(x, y - 1)
+        await insert(x, y + 1)
+      }
+    }
+
+    function sleep(v) {
+      return new Promise((reslove, reject) => setTimeout(reslove, v))
+    }
+
+    path(map, [10, 15], [50, 50])
+  </script>
+
+</body>
+
+</html>
