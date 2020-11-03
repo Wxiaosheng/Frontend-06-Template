@@ -77,6 +77,34 @@
 
     document.addEventListener("mouseup", () => mousedown = false)
     document.addEventListener("contextmenu", e => e.preventDefault())
+    
+
+    function path (map, start, end) {
+      // BFS
+      const queue = [start]
+
+      function insert(x, y) {
+        if (x < 0 | x >= 100 || y < 0 || y >= 100) return
+        // 如果访问过，或者是墙，则跳过当前点
+        if (map[x * 100 + y]) return
+
+        // 标记为访问过的结点，或者使用 Set 来缓存访问过的点
+        map[x * 100 + y] = 2
+        queue.push([x, y])
+      }
+
+      while (queue.length) {
+        const [x, y] = queue.shift()
+        console.log(x, y)
+        if (x == end[0] && y == end[1]) {
+          return true
+        }
+        insert(x - 1, y)
+        insert(x + 1, y)
+        insert(x, y - 1)
+        insert(x, y + 1)
+      }
+    }
   </script>
 
 </body>
