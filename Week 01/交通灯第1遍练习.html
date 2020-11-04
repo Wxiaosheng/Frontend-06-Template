@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>交通灯第1遍练习.html</title>
+
+  <style>
+    .box {
+      display: inline-block;
+      padding: 5px;
+      border: 1px solid black;
+      border-radius: 50px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <div id="green" class="cell"></div>
+    <div id="yellow" class="cell"></div>
+    <div id="red" class="cell"></div>
+  </div>
+
+  <script>
+    // 异步编程的三种方式
+    // callback、promise、async/await
+
+    function green() {
+      const cells = document.getElementsByClassName("cell")
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].style.backgroundColor = ""
+      }
+      document.getElementById("green").style.backgroundColor = "green"
+    }
+
+    function yellow() {
+      const cells = document.getElementsByClassName("cell")
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].style.backgroundColor = ""
+      }
+      document.getElementById("yellow").style.backgroundColor = "yellow"
+    }
+
+    function red() {
+      const cells = document.getElementsByClassName("cell")
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].style.backgroundColor = ""
+      }
+      document.getElementById("red").style.backgroundColor = "red"
+    }
+
+    // 
+    function go_callback() {
+      green()
+
+      setTimeout(() => {
+        yellow()
+        setTimeout(() => {
+          red()
+          setTimeout(() => {
+            go()
+          }, 5 * 100)
+        }, 2 * 100)
+      }, 10 * 100)
+    }
+
+    function sleep(v) {
+      return new Promise((reslove, reject) => setTimeout(reslove, v))
+    }
+
+    function go_promise() {
+      green()
+      sleep(10 * 100).then(() => {
+        yellow()
+        return sleep(2 * 100)
+      }).then(() => {
+        red()
+        return sleep(5 * 100)
+      }).then(() => {
+        go_promise()
+      })
+    }
+
+    async function go_async() {
+      green()
+      await sleep(10 * 100)
+      yellow()
+      await sleep(2 * 100)
+      red()
+      await sleep(5 * 100)
+
+      go_async()
+    }
+
+    // go_callback()
+    // go_promise()
+    go_async()
+
+  </script>
+
+</body>
+
+</html>
