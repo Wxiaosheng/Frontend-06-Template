@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>TicToaToc_第六遍练习</title>
+</head>
+
+<style>
+  .cell {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 50px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: green;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+  }
+</style>
+
+<body>
+
+  <div id="board"></div>
+
+  <script>
+    let color = 2, board = document.getElementById("board")
+    const map = [
+      0, 0, 0,
+      0, 0, 0,
+      0, 0, 0,
+    ]
+
+    function show() {
+      board.innerHTML = ""
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          const cell = document.createElement("div")
+          cell.classList.add("cell")
+          cell.innerText = map[i * 3 + j] == 1 ? "❌" : map[i * 3 + j] == 2 ? "⭕️" : ""
+
+          cell.addEventListener("click", () => useMove(i, j))
+
+          board.appendChild(cell)
+        }
+        board.appendChild(document.createElement("br"))
+      }
+    }
+
+    function useMove(x, y) {
+      map[x * 3 + y] = color
+
+      if (check(map, color)) {
+        alert(`${color == 1 ? "❌" : "⭕️"} is winner!`)
+      }
+
+      color = 3 - color
+
+      // const point = willWin(map, color)
+      // if (point) {
+      //   console.log(`${color == 1 ? "❌" : "⭕️"} will win in [${point[0]}, ${point[1]}]`)
+      // }
+      // console.log(bastChoice(map, color))
+
+      show()
+
+      computedMove()
+    }
+
+    function computedMove() {
+      const { point } = bastChoice(map, color)
+      if (point) {
+        map[point[0] * 3 + point[1]] = color
+      }
+      if (check(map, color)) {
+        alert(`${color == 1 ? "❌" : "⭕️"} is winner!`)
+      }
+      color = 3 - color
+      show()
+    }
+
+    function willWin(map, color) {
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (map[i * 3 + j]) continue
+          const temp = clone(map)
+          temp[i * 3 + j] = color
+          if (check(temp, color)) return [i, j]
+        }
+      }
+      return null
+    }
+
+    function bastChoice(map, color) {
+      const p = willWin(map, color)
+      if (p) {
+        return {
+          point: p,
+          result: 1
+        }
+      }
+
+      let point = null, result = -2
+      outer: for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (map[i * 3 + j]) continue
+          const temp = clone(map)
+          temp[i * 3 + j] = color
+          const oop = bastChoice(temp, 3 - color)
+          if (-oop.result > result) {
+            result = - oop.result
+            point = [i, j]
+          }
+          if (result == 1) break outer
+        }
+      }
+
+      return {
+        point,
+        result: point ? result : 0
+      }
+    }
+
+    function clone(obj) {
+      return Object.create(obj)
+    }
+
+    function check(map, color) {
+      {
+        for (let i = 0; i < 3; i++) {
+          let win = true
+          for (let j = 0; j < 3; j++) {
+            if (map[i * 3 + j] != color) win = false
+          }
+          if (win) return true
+        }
+      }
+      {
+        for (let i = 0; i < 3; i++) {
+          let win = true
+          for (let j = 0; j < 3; j++) {
+            if (map[j * 3 + i] != color) win = false
+          }
+          if (win) return true
+        }
+      }
+      {
+        let win = true
+        for (let i = 0; i < 3; i++) {
+          if (map[i * 3 + i] != color) win = false
+        }
+        if (win) return true
+      }
+      {
+        let win = true
+        for (let i = 0; i < 3; i++) {
+          if (map[i * 3 + 2 - i] != color) win = false
+        }
+        if (win) return true
+      }
+    }
+
+    show()
+  </script>
+
+</body>
+
+</html>
