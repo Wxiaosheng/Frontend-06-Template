@@ -87,8 +87,9 @@
           while (x != start[0] || y != start[1]) {
             path.push(map[x, y])
 
-            x = table[x * 100 + y][0]
-            y = table[x * 100 + y][1]
+            const [i, j] = table[x * 100 + y]
+            x = i, y = j
+
             await sleep(1)
             document.getElementById("container").children[x * 100 + y].style.backgroundColor = "purple"
           }

@@ -11,9 +11,11 @@
     width: 801px;
     height: 801px;
   }
+
   .row {
     height: 8px;
   }
+
   .cell {
     display: inline-block;
     width: 7px;
@@ -78,9 +80,9 @@
 
     document.addEventListener("mouseup", () => mousedown = false)
     document.addEventListener("contextmenu", e => e.preventDefault())
-    
 
-    async function findPath (map, start, end) {
+
+    async function findPath(map, start, end) {
       // BFS
       const queue = [start], table = Object.create(map)
 
@@ -90,7 +92,7 @@
         if (table[x * 100 + y]) return
 
         // await sleep(30)
-        document.getElementsByClassName(`no${x*100 + y}`)[0].style.backgroundColor = "lightgreen"
+        document.getElementsByClassName(`no${x * 100 + y}`)[0].style.backgroundColor = "lightgreen"
         // 标记为访问过的结点，或者使用 Set 来缓存访问过的点
         // map[x * 100 + y] = 2
         table[x * 100 + y] = pre
@@ -107,10 +109,10 @@
             path.push(map[x * 100 + y])
             // 这一句解构赋值失败了？ 为什么？
             // [x, y] = table[x * 100 + y]
-            x = table[x * 100 + y][0]
-            y = table[x * 100 + y][1]
+            const [i, j] = table[x * 100 + y]
+            x = i, y = j
             await sleep(10)
-            document.getElementsByClassName(`no${x*100 + y}`)[0].style.backgroundColor = "purple"
+            document.getElementsByClassName(`no${x * 100 + y}`)[0].style.backgroundColor = "purple"
           }
 
           return path
@@ -129,7 +131,7 @@
       return null
     }
 
-    function sleep (v) {
+    function sleep(v) {
       return new Promise((reslove, reject) => setTimeout(reslove, v))
     }
   </script>
