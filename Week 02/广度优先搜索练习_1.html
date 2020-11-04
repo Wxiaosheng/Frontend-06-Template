@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>地图编辑器-广度优先搜索练习_1</title>
+
+  <style>
+    #container {
+      width: 601px;
+      font-size: 0;
+    }
+
+    .cell {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      line-height: 6px;
+      border-bottom: 1px solid white;
+      border-right: 1px solid white;
+      background-color: gray;
+      vertical-align: top;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container"></div>
+
+  <button id="btn" onclick="handlesave()">save</button>
+
+  <script>
+    let mousedown = false, clear = false
+    const container = document.getElementById("container")
+    const map = localStorage["map"] ? JSON.parse(localStorage["map"]) : Array(10000).fill(0)
+
+    function handlesave() {
+      localStorage["map"] = JSON.stringify(map)
+    }
+
+    for (let i = 0; i < 100; i++) {
+      for (let j = 0; j < 100; j++) {
+        const cell = document.createElement("div")
+        cell.classList.add("cell")
+
+        if (map[i * 100 + j] == 1) {
+          cell.style.backgroundColor = "black"
+        }
+
+        cell.addEventListener("mousemove", () => {
+          if (mousedown) {
+            if (clear) {
+              map[i * 100 + j] = 0
+              cell.style.backgroundColor = ""
+            } else {
+              map[i * 100 + j] = 1
+              cell.style.backgroundColor = "black"
+            }
+          }
+        })
+
+        container.appendChild(cell)
+      }
+    }
+
+
+
+    async function findPath(map, start, end) {
+      const queue = [start], table = Object.create(map)
+
+      async function insert(x, y, pre) {
+        if (x < 0 || x >= 100 || y < 0 || y > 100) return
+        if (table[x * 100 + y]) return
+
+        table[x * 100 + y] = pre
+        // await sleep(1)
+        document.getElementById("container").children[x * 100 + y].style.backgroundColor = "lightgreen"
+        queue.push([x, y])
+      }
+
+      while (queue.length) {
+        let [x, y] = queue.shift()
+        console.log(x, y)
+        if (x == end[0] && y == end[1]) {
+          // return true
+          let path = []
+          while (x != start[0] || y != start[1]) {
+            path.push(map[x, y])
+
+            x = table[x * 100 + y][0]
+            y = table[x * 100 + y][1]
+            await sleep(1)
+            document.getElementById("container").children[x * 100 + y].style.backgroundColor = "purple"
+          }
+        }
+
+        await insert(x - 1, y, [x, y])
+        await insert(x + 1, y, [x, y])
+        await insert(x, y - 1, [x, y])
+        await insert(x, y + 1, [x, y])
+
+        await insert(x - 1, y - 1, [x, y])
+        await insert(x - 1, y + 1, [x, y])
+        await insert(x + 1, y - 1, [x, y])
+        await insert(x + 1, y + 1, [x, y])
+      }
+    }
+
+    function sleep(v) {
+      return new Promise((reslove, reject) => setTimeout(reslove, v))
+    }
+
+
+    document.addEventListener("mousedown", (e) => {
+      mousedown = true
+      clear = (e.which === 3)
+    })
+
+    document.addEventListener("mouseup", () => mousedown = false)
+    document.addEventListener("contextmenu", (e) => e.preventDefault())
+
+  </script>
+
+</body>
+
+</html>
