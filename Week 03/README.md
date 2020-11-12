@@ -53,8 +53,90 @@ for (let token of tokenize("1024 + 10 * 25")) {
 ]
 ```
 
+#### 语法分析
+它会将 **词法分析** 得到的列表，转换成树的结构，同时会有语法验证
 
+```javascript
+function* tokenize (code) {
+  const regexp = /([0-9\.]+)|([ \t]+)|([\r\n]+)|([\*]+)|([\/]+)|([\+]+)|([\-]+)/g
+  const dictionary = ["Number", "Whitespace", "LineTerminator", "*", "/", "+", "-"]
+  let result = null, lastIndex = 0
+  do {
+    lastIndex = regexp.lastIndex
+    result = regexp.exec(code)
+    if (!result) break
+    if (regexp.lastIndex - lastIndex > result[0].length) break
 
+    let token = {
+      type: null, 
+      value: null
+    }
+    for (let i = 1; i <= dictionary.length; i++) {
+      if (result[i]) token.type = dictionary[i-1]
+    }
+    token.value = result[0]
+
+    yield token
+  } while (result)
+
+  yield { type: "EOF" }
+}
+
+let source = []
+for (let token of tokenize("10 * 25 / 2")) {
+  if (token.type !== "Whilespace" || token.type !== "LineTerminator") 
+    source.push(token)
+}
+
+function MulitplicativeExpression (source) {
+  if (source[0].type === "Number") {
+    let node = {
+      type: "MulitplicativeExpression",
+      children: source[0]
+    }
+    source[0] = node
+    return MulitplicativeExpression(source)
+  }
+  if (
+    source[0].type === "MulitplicativeExpression" &&
+    source[1] && source[1].type === "*"
+  ) {
+    let node = {
+      type: "MulitplicativeExpression",
+      operator: "*",
+      children: []
+    }
+    node.children.push(source.shift())
+    node.children.push(source.shift())
+    node.children.push(source.shift())
+    source.unshift(node)
+    return MulitplicativeExpression(source)
+  }
+
+  if (
+    source[0].type === "MulitplicativeExpression" &&
+    source[1] && source[1].type === "/"
+  ) {
+    let node = {
+      type: "MulitplicativeExpress",
+      operator: "/",
+      children: []
+    }
+    node.children.push(source.shift())
+    node.children.push(source.shift())
+    node.children.push(source.shift())
+    source.unshift(node)
+    return MulitplicativeExpression(source)
+  }
+
+  if (source[0].type === "MulitplicativeExpress") return source[0]
+}
+
+console.log(MulitplicativeExpression (source))
+```
+
+语法分析的结果如下：
+![语法分析的结果](./ast.jpg)
 
 
 ### 重学前端 - 前端知识架构图
