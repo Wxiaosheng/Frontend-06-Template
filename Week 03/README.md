@@ -1,4 +1,60 @@
-## 学习笔记
+# 学习笔记
+
+## 抽象语法树 - AST(Abstract Syntax Tree)
+### 纯文本如何转换成 AST？
+**一般来说通常分成两步，词法分析 和 语法分析**
+
+#### 词法分析
+读取代码（通常是字符串），按照既定的规则封装成一个有一个对象，最后生成一个tokens列表（一维数组）
+
+下面手动实现词法分析：
+```javascript
+function* tokenize (code) {
+  const regexp = /([0-9\.]+)|([ \t]+)|([\r\n]+)|([\*]+)|([\/]+)|([\+]+)|([\-]+)/g
+  const dictionary = ["Number", "Whitespace", "LineTerminator", "*", "/", "+", "-"]
+  let result = null, lastIndex = 0
+  while (true) {
+    lastIndex = regexp.lastIndex
+    result = regexp.exec(code)
+    if (!result) break
+    if (regexp.lastIndex - lastIndex > result[0].length) break
+
+    let token = {
+      type: null,
+      value: null
+    }
+
+    for (let i = 1; i <= dictionary.length; i++) {
+      if (result[i]) token.type = dictionary[i-1]
+    }
+    token.value = result[0]
+
+    yield token
+  }
+}
+
+for (let token of tokenize("1024 + 10 * 25")) {
+  console.log(token)
+}
+```
+
+词法分析的结果如下：
+```json
+[
+  {type: "Number", value: "1024"},
+  {type: "Whitespace", value: " "},
+  {type: "+", value: "+"},
+  {type: "Whitespace", value: " "},
+  {type: "Number", value: "10"},
+  {type: "Whitespace", value: " "},
+  {type: "*", value: "*"},
+  {type: "Whitespace", value: " "},
+  {type: "Number", value: "25"}
+]
+```
+
+
+
 
 
 ### 重学前端 - 前端知识架构图
