@@ -88,6 +88,54 @@ for (let token of tokenize("10 * 25 / 2")) {
     source.push(token)
 }
 
+// 处理 加减
+function AdditiveExpression(source) {
+  if (source[0].type === "Number") {
+    let node = {
+      type: "AdditiveExpression",
+      children: source[0]
+    }
+    source[0] = node
+    return AdditiveExpression(source)
+  }
+
+  if (source[0].type === "AdditiveExpression" && source[1] && source[1].type === "+") {
+    let node = {
+      type: "AdditiveExpression",
+      operator: "+",
+      children: []
+    }
+    node.children.push(source.shift())
+    node.children.push(source.shift())
+    MultiplicativeExpression(source)
+    node.children.push(source.shift())
+    source.unshift(node)
+    return AdditiveExpression(source)
+  }
+
+  if (source[0].type === "AdditiveExpression" && source[1] && source[1].type === "-") {
+    let node = {
+      type: "AdditiveExpression",
+      operator: "-",
+      children: []
+    }
+    node.children.push(source.shift())
+    node.children.push(source.shift())
+    MultiplicativeExpression(source)
+    node.children.push(source.shift())
+    source.unshift(node)
+    return AdditiveExpression(source)
+  }
+
+  if (source[0].type === "AdditiveExpression") {
+    return source[0]
+  }
+
+  MultiplicativeExpression(source)
+  return AdditiveExpression(source)
+}
+
+// 处理 乘除
 function MulitplicativeExpression (source) {
   if (source[0].type === "Number") {
     let node = {
