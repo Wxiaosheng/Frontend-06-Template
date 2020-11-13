@@ -186,6 +186,20 @@ console.log(MulitplicativeExpression (source))
 语法分析的结果如下：
 ![语法分析的结果](./ast.jpg)
 
+## 实践之 Babel 
+Babel 官网对自身的定义是： **是一个 JavaScript 编译器**
+
+通过查阅文档，编译器的定义为： **一种语言（通常为高级语言） 翻译为 另一种语言（通常为低级语言）的程序**
+
+Babel 的主要功能是将JavaScript代码从 ES6(高版本) 转换成 ES5(低版本) ，由此我们可以发现，Babel并不是严格意义上的编译器，称为 **转换器** 获取更为恰当
+
+### Babel 工作原理
+Babel 的转译过程分为三个阶段： `parsing`、`transforming`、`generating`  
+
+具体的转换过程如下：  
+
+    ES6 code => babylon parsing => 得到 AST => 用 babel-traverse(plugin) 对 AST 进行遍历转译 => 得到新的 AST => 用 babel-generator(plugin) 遍历 AST 生成新的 ES5 code
+
 
 ### 重学前端 - 前端知识架构图
 
