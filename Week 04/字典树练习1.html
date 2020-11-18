@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>字典树练习1</title>
+</head>
+
+<body>
+  <script>
+    class Trie {
+      constructor() {
+        this.root = Object.create(null)
+        this.$ = Symbol("$")
+      }
+
+      insert(word) {
+        let node = this.root
+        for (let c of word) {
+          if (!node[c]) node[c] = Object.create(null)
+          node = node[c]
+        }
+
+        if (!node[this.$]) node[this.$] = 0
+        node[this.$]++
+      }
+
+      moust() {
+        let max = 0, maxWord = null
+        const visited = (node, word) => {
+          if (node[this.$] && node[this.$] > max) max = node[this.$], maxWord = word
+
+          for (let c in node) {
+            visited(node[c], word + c)
+          }
+        }
+        visited(this.root, "")
+
+        console.log(maxWord, max)
+        return maxWord
+      }
+    }
+
+    function randeString(leng) {
+      let s = ""
+      for (let i = 0; i < leng; i++) {
+        s += String.fromCharCode(Math.random() * 26 + 97)
+      }
+      return s
+    }
+
+    let trie = new Trie()
+
+    for (let i = 0; i < 100000; i++) {
+      trie.insert(randeString(4))
+    }
+
+  </script>
+</body>
+
+</html>
