@@ -1,0 +1,17 @@
+<script>
+
+  const o1 = {
+    a: 1,
+    b: 2
+  }
+
+  const object = new Proxy(o1, {
+    set(obj, prop, val) {
+      console.log(obj, prop, val)
+    },
+    get(obj, prop) {
+      console.log(obj, prop, val)
+    }
+  })
+
+</script>
