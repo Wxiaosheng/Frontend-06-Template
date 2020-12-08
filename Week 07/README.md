@@ -72,3 +72,38 @@
 当通过 `a.b` 的方式获取对象的属性的时候，获得其实是 `Reference` 对象，只是我们在代码中无法访问。  
 
 一个 `Reference` 对象分成两个部分， `Object` 和 `Key`，完全记录了 Member 运算的左右两个部分。
+
+## JS表达式 | 类型转换 - Type Convertion
+
+### Unboxing - 拆箱转换
+> 就是把一个 object 转换成一个 基本类型
+
+#### ToPrimitive
+当一个对象参与运算时，会调用该对象的 `ToPrimitive`  
+
+##### 对象的三个方法会影响 ToPrimitive
+* Symbol.toPrimitive - 优先级最高
+* toString
+* valueOf
+
+```javascript
+  const o = {
+    valueOf(){ return 1 },
+    toSting(){ return '2' },
+    [Symbol.toPrimitive](){ return 3 }
+  }
+  const x = {}
+
+  // 当 + 运算时，在没有 ToPrimitive 时，会调用 valueOf
+  console.log('x' + o)
+  // 当 o 作为属性名时，会优先调用 toString 
+  x[o] = 1
+```
+
+### Boxing - 装箱转换
+> 会获得对应类型的实例对象
+
+* Number => new Number(1)  
+* String => new String('a')    
+* Boolean => new Boolean(true)  
+* Symbol => new Object(Symbol('a'))  
