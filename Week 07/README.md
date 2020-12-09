@@ -107,3 +107,52 @@
 * String => new String('a')    
 * Boolean => new Boolean(true)  
 * Symbol => new Object(Symbol('a'))  
+
+
+## JS语句
+* Grammar
+  * 简单语句
+  组合语句
+  声明
+* Runtime
+  * Completion Record - 存储语句执行后的结果
+  * Lexical Environment
+
+### Completion Record
+#### 私有属性
+[[type]]: normal, break, continue, return, throw
+[[value]]: 基本类型
+[[target]]: label (带标签的语句时的标签)
+
+### 简单语句
+* ExpressionStatement
+* EmptyStatement
+* DebuggerStatement
+* ThrowStatement
+* ContinueStatement
+* BreakStatement
+* ReturnStatement
+
+### 复合语句
+* BlockStatement
+* IfStatement
+* SwitchStatement
+* IterationStatement
+* WithStatement
+* LabelledStatement
+* TryStatement
+
+### 声明
+* FunctionDeclaration
+* GeneratorDeclaration
+* AsyncFunctionDeclaration
+* AsyncGeneratorDelcaration
+* VariableStatement
+* ClassDeclaration
+* LexicalDeclaration
+
+#### 注意
+* `function`、`function*`、`async function`、`async function*`、`var`  
+  * 这几种声明的范围都是 function body，而且没有先后顺序
+* `class`、`const`、`let`
+  * 作用范围是`{}`，在同一作用域中，声明之前使用会报错
