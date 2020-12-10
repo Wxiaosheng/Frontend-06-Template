@@ -156,3 +156,49 @@
   * 这几种声明的范围都是 function body，而且没有先后顺序
 * `class`、`const`、`let`
   * 作用范围是`{}`，在同一作用域中，声明之前使用会报错
+
+
+## JS 结构化
+
+### JS执行粒度 （运行时）
+* 宏任务
+* 微任务（Promise）
+* 函数调用 （Execution Content）
+* 语句/声明（Completion Record）
+* 表达式（Reference）
+* 直接量/变量/this...
+
+
+### 函数的调用
+函数调用会形成 `Execution Context`，保存 Execution Context 的数据结构叫 `Execution Context Stack`，且栈顶的 Execution Context 被称为 `Running Execution Context`
+
+
+### Execution Context
+#### ECMAScript Code Execution Context
+* code evaluation state
+* Function
+* Script or Module
+* Realm 
+* LexicalEnvironment
+* VariableEnvironment
+
+#### Generator Execution Contexts
+* code evaluation state
+* Function
+* Script or Module
+* Realm 
+* LexicalEnvironment
+  * this
+  * new.target
+  * super
+  * 变量
+* VariableEnvironment
+  * 处理 var 声明，是个历史包袱
+* Generator
+
+#### Environment Record
+* Declarative Environment Records
+  * Function Environment Records
+  * module Environment Records
+* Globla Environment Records
+* Object Environment Records
