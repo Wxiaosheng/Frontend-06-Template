@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>状态机 | 不使用状态机处理字符串</title>
+</head>
+<body>
+    
+    <script>
+
+        // 寻找字符串 ‘a’
+        function foundA(str) {
+            for (let c of str) {
+                if (c === 'a') return true
+            }
+            return false
+        }
+
+        fundA('csgsgasdg')
+
+
+        // 找到 ‘ab’
+        function found (string) {
+            let hasA = false
+            for (let c of string) {
+                if (c === 'a') hasA = true
+                else if (hasA && c === 'b') return true
+                else hasA = false
+            }
+            
+            return false
+        }
+
+        found('slkgdakbk')
+        found('slkgabkbk')
+
+        // 找到 ‘abcde’
+        function fundSub (string) {
+            let hasA = hasB = hasC = hasD = false
+            for (let c of string) {
+                if (c === 'a') hasA = true
+                else if (hasA && c === 'b') hasB = true
+                else if (hasB && c === 'c') hasC = true
+                else if (hasC && c === 'd') hasD = true
+                else if (hasD && c === 'e') return true
+                else hasA = hasB = hasC = hasD = false
+            }
+            return false
+        }
+        fundSub('sdsalgjldsg')
+        fundSub('abcdefsgsga')
+    </script>
+</body>
+</html>
