@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>状态机 | 使用状态机处理字符串</title>
+</head>
+<body>
+    <script>
+        function match (string) {
+            let state = start
+            for (let c of string) {
+                state = state(c)
+            }
+            return state === end
+        }
+
+        function start (c) {
+            if (c === 'a') return foundA
+            return start(c)
+        }
+
+        function end (c) {
+            return end
+        }
+
+        function foundA() {
+            if (c === 'b') return foundB
+            return start(c)
+        }
+
+        function foundB() {
+            if (c === 'c') return foundC
+            return start(c)
+        }
+        function foundC() {
+            if (c === 'd') return foundD
+            return start(c)
+        }
+        function foundD() {
+            if (c === 'e') return end
+            return start(c)
+        }
+    </script>
+</body>
+</html>
