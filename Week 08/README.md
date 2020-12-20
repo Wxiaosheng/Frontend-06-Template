@@ -26,4 +26,9 @@ URL --HTTP--> HTML --parse--> DOM --CSS Computing--> DOM with CSS --layout--> DO
 * 数据链路层        - 4G/5G/WiFi
 * 物理层            - 4G/5G/WiFi
 
-#### 服务端环境准备
+
+#### HTTP请求总结
+1. 设计一个 HTTP 请求类
+2. Content-Type 是一个必要的字段，要有默认值
+3. body 是 k-v 的格式
+4. 不同的 Content-Type 影响 body 的格式
