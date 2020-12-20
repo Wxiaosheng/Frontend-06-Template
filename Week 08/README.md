@@ -42,3 +42,7 @@ URL --HTTP--> HTML --parse--> DOM --CSS Computing--> DOM with CSS --layout--> DO
 * 第三步：发送请求
 1. 设计支持已有的 connection 或者 自己重新创建
 2. 收到数据传给 parse
+
+* 第四步：Response 
+1. Response 必须分分段构造，所以我们需要一个 ResponseParse 来 '装配'
+2. ResponseParse 分段处理 ResponseText ， 我们用状态机来分析文本结构
