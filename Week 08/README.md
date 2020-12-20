@@ -28,7 +28,17 @@ URL --HTTP--> HTML --parse--> DOM --CSS Computing--> DOM with CSS --layout--> DO
 
 
 #### HTTP请求总结
+* 第一步：发起一个 HTTP 请求
 1. 设计一个 HTTP 请求类
 2. Content-Type 是一个必要的字段，要有默认值
 3. body 是 k-v 的格式
 4. 不同的 Content-Type 影响 body 的格式
+
+* 第二步： Send 函数
+1. 在 Request 构造器中，收集必要信息
+2. 设计一个 send 函数，把请求真实的发送到服务器
+3. send 函数应该是异步的，所以返回 Promise
+
+* 第三步：发送请求
+1. 设计支持已有的 connection 或者 自己重新创建
+2. 收到数据传给 parse
