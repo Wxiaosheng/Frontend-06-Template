@@ -15,3 +15,15 @@ URL --HTTP--> HTML --parse--> DOM --CSS Computing--> DOM with CSS --layout--> DO
 
 **在JS中状态机的一个理想的实现方式就是一系列返回状态函数的这样的一批状态函数**
 
+### HTTP 请求
+#### HTTP协议的解析
+##### ISO - OSI 七层网络模型
+* 应用              - HTTP
+* 表示              - HTTP
+* 会话              - HTTP
+* 传输              - TCP
+* 网络              - Internet
+* 数据链路层        - 4G/5G/WiFi
+* 物理层            - 4G/5G/WiFi
+
+#### 服务端环境准备
