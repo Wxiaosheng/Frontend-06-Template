@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用状态机完成 ababax 的处理</title>
+</head>
+<body>
+
+    <script>
+        // 处理 abababx
+
+        function match (string) {
+            let state = start
+            for(let c of string) {
+                state = state(c)
+            }
+
+            return state === end
+        }
+
+        let count = 3
+        function start (c) {
+            if (c === 'a') {
+                count--
+                return foundB
+            } else {
+                count = 3
+                return start
+            }
+        }
+
+        function end (c) {
+            return end
+        }
+
+        function foundB (c) {
+            if (c === 'b') {
+                if (count > 0) return start
+                else return foundAX
+            } else {
+                return start(c)
+            }
+        }
+
+        function foundX (c) {
+            if (c === 'x') return end
+            else return start(c)
+        }
+
+        match('sgabababxskd')
+    </script>
+    
+</body>
+</html>
