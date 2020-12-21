@@ -14,7 +14,7 @@ class Request {
         if (this.headers['Content-Type'] === 'application/json') {
             this.bodyText = JSON.stringify(this.body)
         } else if (this.headers['Content-Type'] === 'application/x-wwww-form-urlencode') {
-            this.bodyText = Object.keys(this.body).map(key => `${key}=${encodeURIComponent(this.bodyText[key])}`).join('&')
+            this.bodyText = Object.keys(this.body).map(key => `${key}=${encodeURIComponent(this.body[key])}`).join('&')
         }
         this.headers['Content-Length'] = this.bodyText.length
     }
