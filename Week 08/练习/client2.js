@@ -65,7 +65,7 @@ class RequestParse {
     this.WAITING_HEADER_NAME = 2
     this.WAITING_HEADER_SPACE = 3
     this.WAITING_HEADER_VALUE = 4
-    this.WAITING_HEADER_LINE_END = 5
+    this.WAITING_HEADER_END = 5
     this.WAITING_HEADER_BLACK_END = 6
     this.WAITING_BODY = 7
 
@@ -101,7 +101,7 @@ class RequestParse {
   // 状态机
   receiveChar(char) {
     if (this.current === this.WAITING_STATUS_LINE) {
-      if (char === '\r') {
+      if (char === '\n') {
         this.current = this.WAITING_STATUS_LINE_END
       } else {
         this.statusLine += char
@@ -123,17 +123,16 @@ class RequestParse {
       if (char === ' ') this.current = this.WAITING_HEADER_VALUE
     } else if (this.current === this.WAITING_HEADER_VALUE) {
       if (char === '\r') {
-        this.current = this.WAITING_HEADER_LINE_END
         this.headers[this.headerName] = this.headerValue
-        this.headerName = ''
-        this.headerValue = ''
+        this.headerName = '', this.headerValue = ''
+        this.current = this.WAITING_HEADER_LINE_END
       } else {
         this.headerValue += char
       }
     } else if (this.current === this.WAITING_HEADER_LINE_END) {
       if (char === '\n') this.current = this.WAITING_HEADER_NAME
     } else if (this.current === this.WAITING_HEADER_BLACK_END) {
-      if (char === '\n') this.current = this.WAITING_BODY
+      if (char === 'e') this.current = this.WAITING_BODY
     } else if (this.current === this.WAITING_BODY) {
       this.bodyParse.receiveChar(char)
     }
