@@ -202,3 +202,8 @@
   * module Environment Records
 * Globla Environment Records
 * Object Environment Records
+
+注意：
+* （{}、正则表达式、[]、function(){}）字面量定义的对象类型都是在 Realm 中获取的构造器来创建的
+
+* 业务层面确定要保留的小数点位数，然后放大到整数，再去计算存储
