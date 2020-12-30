@@ -1,11 +1,10 @@
 const net = require('net')
-const parser = require('./parser.js')
 
 class Request {
     constructor(options) {
         this.methond = options.methond || 'GET'
         this.host = options.host
-        this.prot = options.prot || 80
+        this.port = options.port || 80
         this.path = options.path || '/'
         this.body = options.body || {}
         this.headers = options.headers || {}
@@ -14,15 +13,15 @@ class Request {
         }
         if (this.headers['Content-Type'] === 'application/json') {
             this.bodyText = JSON.stringify(this.body)
-        } else if (this.headers['Content-Type'] === 'application/x-wwww-form-urlencode') {
+        } else if (this.headers['Content-Type'] === 'application/x-www-form-urlencode') {
             this.bodyText = Object.keys(this.body).map(key => `${key}=${encodeURIComponent(this.body[key])}`).join('&')
         }
         this.headers['Content-Length'] = this.bodyText.length
     }
 
     toString () {
-        return `${this.options.methond} ${this.options.path} HTTP/1.1\r
-        ${Object.keys(this.headers).map(key => `${key}=${this.headers(key)}`).join('\r\n')}\r\n
+        return `${this.methond} ${this.path} HTTP/1.1\r
+        ${Object.keys(this.headers).map(key => `${key}=${this.headers[key]}`).join('\r\n')}\r\n
         ${this.bodyText}
         `
     }
@@ -35,7 +34,7 @@ class Request {
             } else {
                 connection = net.createConnection({
                     host: this.host,
-                    port: this.prot
+                    port: this.port
                 }, () => {
                     connection.write(this.toString())
                 })
@@ -149,9 +148,7 @@ void async function () {
 
     let response = await request.send()
 
-    let dom = parser.parserHTML(response.body)
-
-    console.log(response, dom)
+    console.log(response)
 }()
 
 class TrunkBodyParser {
