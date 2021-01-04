@@ -128,6 +128,7 @@ class ResponseParse {
       }
     } else if (this.current === this.WAITING_BODY) {
       console.log(char)
+      this.bodyParse.receiveChar(char)
     }
   }
 }
