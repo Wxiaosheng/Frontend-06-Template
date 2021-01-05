@@ -1,13 +1,13 @@
 const http = require('http')
 
 http.createServer((request, response) => {
-    console.log('require reslove')
-    console.log(request.headers)
-    response.setHeader('X-Foo', 'bar')
-    // response.setHeader('Content-Type', 'text/html')
-    response.writeHead(200, { 'Content-Type': 'text/html' })
-    response.end(
-`<html>
+  console.log('require reslove')
+  console.log(request.headers)
+  response.setHeader('X-Foo', 'bar')
+  // response.setHeader('Content-Type', 'text/html')
+  response.writeHead(200, { 'Content-Type': 'text/html' })
+  response.end(
+    `<html author=tianzun>
 <head>
   <title>Toy Browser</title>
   <style>
@@ -29,9 +29,9 @@ http.createServer((request, response) => {
     <img />
   </div>
 </body>
-<html>
+</html>
 `
-    )
+  )
 }).listen(8088)
 
 console.log('server started')
