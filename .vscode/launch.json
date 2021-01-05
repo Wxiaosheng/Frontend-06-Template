@@ -11,7 +11,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/Week 09/8-addCSSRules/client.js"
+      "program": "${workspaceFolder}/Week 09/9-computeCSS/client.js"
     }
   ]
 }
