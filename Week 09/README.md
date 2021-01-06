@@ -62,3 +62,11 @@
 
 ### 第六步 生成 computed 属性
 一旦选择匹配，就应用到选择器的元素上，形成 computedStyle 
+
+### 第七步 specificity 的计算逻辑
+> 选择器的优先级
+
+1. CSS 规则根据 specificity 和后来优先规则覆盖
+2. specificity 是个四元组，越左边权重越高
+3. 一个 CSS 规则的 specificity 根据包含的简单选择器相加而成
+
