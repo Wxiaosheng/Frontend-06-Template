@@ -35,4 +35,15 @@
     * https://www.w3.org/TR/css-values-4/  
 
 
-
+### 收集标准
+在 https://www.w3.org/TR/ 页面，直接抓取数据
+```javascript
+Array.prototype.slice.call(
+  document.querySelector("#container").children)
+  .filter(e => e.getAttribute("data-tag").match(/css/))
+  .map(e => ({
+    name: e.children[1].innerText,
+    url: e.children[1].children[0].href
+  })
+)
+```
