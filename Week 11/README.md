@@ -47,3 +47,23 @@ Array.prototype.slice.call(
   })
 )
 ```
+
+
+### 伪类
+* 链接/行为
+  * :any-link - 匹配所有的超链接
+  * :link - 匹配所有还未访问过的超链接
+  * :visted - 匹配所有还访问过的超链接
+  * :hover
+  * :active
+  * :focus
+  * :target
+* 树结构
+  * :empty
+  * :nth-child()
+  * :nth-last-child()
+  * :first-child :last-child :only-child
+* 逻辑型
+  * :not
+  * :where :has
+
