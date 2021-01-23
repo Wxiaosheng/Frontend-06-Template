@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>transition</title>
+    <style>
+        .ball {
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            border-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translateY(180px);
+        }
+    </style>
+</head>
+<script>
+    function generateCubicBezier (v, g, t) {
+        var a = v / g,  b = t + v / g
+        return [
+            [(a / 3 + (a + b) / 3 - a) / (b - a), (a * a / 3 + a * b * 2 / 3 - a * a) / (b * b - a * a)],
+            [(b / 3 + (a + b) / 3 - a) / (b - a), (b * b / 3 + a * b * 2 / 3 -  a * a) / (b * b - a * a)]
+        ]
+    }
+
+    function createBall () {
+        var ball = document.createElement('div')
+        var t = Number(document.getElementById('t').value)
+        var vx = Number(document.getElementById('vx').value)
+        var vy = Number(document.getElementById('vy').value)
+        var g = Number(document.getElementById('g').value)
+
+        ball.className = 'ball'
+        document.body.appendChild(ball)
+        ball.style.transition = `left linear ${t}s, top cubic-bezier(${generateCubicBezier(vy, g, t)}) ${t}s`
+
+        setTimeout(function () {
+            
+        })
+    }
+</script>
+<body>
+    
+</body>
+</html>

@@ -139,3 +139,25 @@ block-level-box， 块级盒
 ##### 计算交叉轴方向
 * 根据每一行中最大元素尺寸计算行高 
 * 根据行高flex-align和item-align，确定元素具体位置
+
+
+## CSS 动画
+### Animation
+* @keyframes - 定义
+* animation - 使用
+
+#### animation 
+* animation-name 时间曲线
+* animation-duration 动画的时长;
+* animation-timing-function 动画的时间曲线; 
+* animation-delay 动画开始前的延迟;
+* animation-iteration-count 动画的播放次数; 
+* animation-direction 动画的方向。
+
+
+### Transition
+* transition-property 要变换的属性;
+* transition-duration 变换的时长;
+* transition-timing-function 时间曲线; 
+* transition-delay 延迟。
+
