@@ -161,3 +161,18 @@ block-level-box， 块级盒
 * transition-timing-function 时间曲线; 
 * transition-delay 延迟。
 
+## 颜色与绘制
+### 光
+自然界中见到的光极少有单色光，大部分都是多个颜色的光混合在一起  
+**光的颜色，其实就是光的波长，人眼的可见范围是400nm ~ 760nm**  
+
+###  绘制
+* 几何图形 
+    * border
+    * box-shadow
+    * border-radius
+* 文字
+    * font
+    * text-decoration
+* 位图
+    * background-image
