@@ -96,3 +96,29 @@ block-level-box， 块级盒
 现在前端布局，一般都可以使用 flex 代替 float 布局
 ##### Margin Collapse - 边界重叠
 
+
+#### BFC（Block formatting context） 合并
+##### Block
+* Block Container - 里面能装 BFC 的盒
+    * 能容正常流的盒，里面就有BFC
+        * block
+        * inline-block
+        * table-cell
+        * flex item
+        * grid cell
+        * table-caption 
+* Block-level Box - 能放进 BFC 的盒
+* Block Box = Block Container + Block-level Box - 里外都有 BFC
+
+##### 设立 BFC
+* floats
+* absolutely positioned elements
+* block containers (such as inline-blocks, table-cells, and table-captions) that are not block boxes,
+    * flex items 
+    * grid cell
+* and block boxes with 'overflow' other than 'visible'
+##### BFC 合并
+* block box && overflow:visible 
+    * BFC合并与float
+    * BFC合并与边距折叠
+
