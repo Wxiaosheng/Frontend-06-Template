@@ -9,3 +9,87 @@
 * 排版和渲染的基本单位是__盒__ 。
 #### 盒模型
 ![盒模型](./box.png)
+
+### 排版
+> 其实就是计算 盒 和 文字 的位置
+
+* 三代排版技术
+    * 基于 正常流 的排版
+        * 收集 盒 和 文字 进 行
+        * 计算 盒 在行中的排布
+        * 计算 行的排布
+    * 基于 flex 技术的排版
+    * 基于 grid 技术的排版
+
+inline-level-box， 行内盒  
+inline-box， 行盒  
+block-level-box， 块级盒  
+其实，排块级的就是 块级格式化上下文 - **BFC（block-level-formatting-context）**，排行盒的叫 行内级格式化上下文 - **IFC（inline-level-formatting-context）**
+
+#### 正常流的行级排布
+##### BaseLine - 基线对齐
+![baseline](./baseline.png)
+
+##### 行模型
+* baseline - 文字对齐 基线
+* text-top - 文字 上缘
+    * 字体大小不变，则不会变
+    * 如果不同字体混排，取最大字体的值
+* text-bottom - 文字 下缘
+    * 字体大小不变，则不会变
+    * 如果不同字体混排，取最大字体的值
+* line-top - 行盒 上缘
+    * 行高大于文字高度时有效
+* line-bottom - 行盒 下缘
+    * 行高大于文字高度时有效
+
+###### 文字和行盒混排时，会存在line-top 和 line-bottom 偏移的问题
+例如下图中，行内盒 text-bottom 对齐，存在将 line-top 从虚线的位置 撑开到实线的位置
+
+![line-box](./line-box.png)
+
+###### 例子
+1. 行内盒 与 文字对齐时
+    * 有文字时，是根据行内盒内部文字的基线对齐的
+    * 无文字时，是根据行内盒的底部对齐的
+    * 因此文字和行内盒混用时，不建议使用 baseline，而是使用 `vertical-align:top`
+```html
+<div style="font-size:50px;line-height:100px;background-color:pink;">
+    <span>Hello good 中文</span>
+    <div style="line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;"></div>
+    <div style="line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;">b</div>
+    <div style="line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;">b <br />c</div>
+</div>
+```
+![行内盒与文字对齐-1](./1.png)
+
+2. 行内盒 与 文字对齐时使用 `vertical-align:top`(或者是 bottom、middle)
+    * 使用 top 时，与行盒顶部对齐，如果行内盒高度大于文字高度，则会底部撑开整行
+    * 使用 bottom 时，与行盒顶部底齐，如果行内盒高度大于文字高度，则会顶部撑开整行
+    * 可以同时被撑开
+```html
+<div style="font-size:50px;line-height:100px;background-color:pink;">
+    <span>Hello good 中文</span>
+    <div style="vertical-align:top;line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;"></div>
+    <div style="vertical-align:top;line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;">b</div>
+    <div style="vertical-align:top;line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;">b <br />c</div>
+</div>
+```
+![行内盒与文字对齐-2](./2.png)
+
+3. 行内盒 与 文字对齐时使用 `vertical-align:text-bottom`(或者是 text-top)
+    * 使用 text-top 时，与文字顶部对齐，如果行内盒高度大于文字高度，则会底部撑开整行
+    * 使用 text-bottom 时，与文字底部对齐，如果行内盒高度大于文字高度，则会顶部撑开整行
+    * 可以同时被撑开
+```html
+<div style="font-size:50px;line-height:100px;background-color:pink;">
+    <span>Hello good 中文</span>
+    <div style="vertical-align:text-bottom;line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;"></div>
+    <div style="vertical-align:text-bottom;line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;">b</div>
+    <div style="vertical-align:text-bottom;line-height:70px;width:100px;height:150px;background-color:aqua;display:inline-block;">b <br />c</div>
+</div>
+```
+![行内盒与文字对齐-3](./3.png)
+
+
+
