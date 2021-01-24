@@ -2,8 +2,9 @@
 ## HTML 的定义
 > XML 和 SGML
 ### DTD 与 namespace
-* XHTML namespace
+* HTML namespace
 * SVG namespace
+* MathML namespace
 
 ## HTML 标签语义
 * aside - 元素页面主内容之外的某些内容（比如侧栏）
@@ -27,3 +28,25 @@
 * &lt;
 * &quot;
 
+## 浏览器API 
+### DOM API
+#### 导航类操作
+* parentNode  < - >  parentElement
+* childNodes  < - >  children
+* firstChild  < - >  firstElementChild
+* lastChild  < - >  lastElementChild
+* nextSibling  < - >  nextElementSibling
+* previousSibling  < - >  previousElementSibling
+
+#### 修改操作
+* appendChild
+* insertBefore
+* removeChild
+* replaceChild
+
+#### 高级操作
+* computeDocumentPosition - 比较两个节点中的关系函数
+* contains - 检查一个结点是否包含另一个结点
+* isEqualNode 检查两个结点是否完全相同
+* isSameNode - 检查是否是同一个结点（相等于 ===）
+* cloneNode - 拷贝一个结点，如果参数传true，则子节点也会被拷贝
