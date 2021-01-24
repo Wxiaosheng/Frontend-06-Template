@@ -50,3 +50,6 @@
 * isEqualNode 检查两个结点是否完全相同
 * isSameNode - 检查是否是同一个结点（相等于 ===）
 * cloneNode - 拷贝一个结点，如果参数传true，则子节点也会被拷贝
+
+### 事件 API
+* Event.addEventListener(type, listener [, options])
