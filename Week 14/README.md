@@ -81,3 +81,4 @@ npm install --save-dev @babel/plugin-transform-react-jsx
 ```
 
 ### JSX 的基本使用方法
+通过 `@babel/plugin-transform-react-jsx` parse jsx 语法，自定义 `createElement` 方法处理 DOM 结点的生成和添加
