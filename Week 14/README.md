@@ -57,3 +57,25 @@ config|❎|✅|❎|❎
         <li><img src={icon} />{title}</li>
     </my-list>
 ```
+
+### 为组件添加JSX语法
+> 看 component 图可以发现，组件系统是由一个 Markup 和 JavaScript 代码两者都可以访问的一个环境
+
+#### 两种 Markup 的建立风格
+* JSX
+* 基于标记语言的 parse
+
+##### 配置 JSX 环境
+```bash
+# 1、安装 webpack webpack-cli
+npm install -g webpack webpack-cli
+
+# 2、安装 babel-loader （因为 JSX 需要 babel 插件 parse）
+npm install --save-dev webpack babel-loader
+
+# 3、安装 babel
+npm install --save-dev @babel/core @babel/preset-env
+
+# 4、安装 babel plugin
+npm install --save-dev @babel/plugin-transform-react-jsx
+```
