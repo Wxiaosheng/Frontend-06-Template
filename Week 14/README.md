@@ -79,3 +79,5 @@ npm install --save-dev @babel/core @babel/preset-env
 # 4、安装 babel plugin
 npm install --save-dev @babel/plugin-transform-react-jsx
 ```
+
+### JSX 的基本使用方法
