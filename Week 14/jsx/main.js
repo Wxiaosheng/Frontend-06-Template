@@ -6,11 +6,11 @@ class Carousel extends Component {
     this.attributes = Object.create(null)
   }
 
-  setAttribute (k, v) {
+  setAttribute(k, v) {
     this.attributes[k] = v
   }
 
-  mountTo (parent) {
+  mountTo(parent) {
     parent.appendChild(this.render())
   }
 
@@ -24,23 +24,44 @@ class Carousel extends Component {
       this.root.appendChild(child)
     }
 
+    let position = 0
+
     this.root.addEventListener('mousedown', event => {
-      console.log('mousedown')
+      let children = this.root.children
+      // 推荐使用 clientX、clientY，相对于浏览器
+      let startX = event.clientX
 
       const move = event => {
-        console.log('mousemove')
+        let x = event.clientX - startX
+
+        let current = position - ((x - x % 500) / 500)
+
+        for (let offset of [-1, 0, 1]) {
+          let pos = current + offset
+          pos = (pos + children.length) % children.length
+          children[pos].style.transition = ''
+          children[pos].style.transform = `translateX(${-pos * 500 + offset * 500 + x % 500}px)`
+        }
       }
       const up = event => {
-        console.log('mouseup')
+        let x = event.clientX - startX
+        position = position - Math.round(x / 500)
+        for (let offset of [0, -Math.sign(Math.round(x / 500) - x + 250 * Math.sign(x))]) {
+          let pos = position + offset
+          pos = (pos + children.length) % children.length
+
+          children[pos].style.transition = ''
+          children[pos].style.transform = `translateX(${-pos * 500 + offset * 500 + x % 500}px)`
+        }
         document.removeEventListener('mousemove', move)
         document.removeEventListener('mouseup', up)
-      } 
+      }
 
       document.addEventListener("mousemove", move)
       document.addEventListener("mouseup", up)
     })
 
-    
+
 
     // let currentIndex = 0
     // setInterval(() => {
@@ -81,3 +102,6 @@ let d = [
 
 const a = <Carousel src={d} />
 a.mountTo(document.body)
+
+
+console.log("main loader")
